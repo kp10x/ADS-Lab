@@ -31,7 +31,7 @@ void insert(Node** head, int val) {
 	node -> data = val; 
 	node -> next = *head;	 
 	*head = node; 
-} 
+}
 
 void print(Node *node) { 
 	while (node != NULL) { 
