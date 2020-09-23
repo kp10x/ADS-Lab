@@ -110,7 +110,10 @@ int main () {
       insertEnd(&head, val);  
     }
   
-    printList(head);  
+    printList(head); 
+    deleteBeg(head);
+    deleteEnd(head);
+    printList(head);
   
     return 0;  
 }  
