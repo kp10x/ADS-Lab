@@ -24,7 +24,7 @@ struct skiplist {
     int value;
     int level;
     skiplist() {
-        header = new Node(MAX_LEVEL, value);
+        header = new Node(MAX_LEVEL, value); //call node for each list header
         level = 0;
     }
     ~skiplist() {
@@ -44,7 +44,7 @@ int random_level() {
         first = false;
     }
     int lvl = (int) (log((float) rand() / RAND_MAX) / log(1.-P));
-    return lvl < MAX_LEVEL ? lvl : MAX_LEVEL;
+    return lvl < MAX_LEVEL ? lvl : MAX_LEVEL; //random val generated from 0 to n
 }
  
 void skiplist::insert_element(int &value) {
@@ -52,13 +52,13 @@ void skiplist::insert_element(int &value) {
     Node *update[MAX_LEVEL + 1];
     memset(update, 0, sizeof(Node*) * (MAX_LEVEL + 1));
     for (int i = level;i >= 0;i--) {
-        while (x->forw[i] != NULL && x->forw[i]->value < value) {
+        while (x->forw[i] != NULL && x->forw[i]->value < value) {   //check position of element if before or after and then proceed
             x = x->forw[i];
         }
         update[i] = x; 
     }
     x = x -> forw[0];
-    if (x == NULL || x -> value != value) {        
+    if (x == NULL || x -> value != value) {        // insert and update respective values at a random lvl
         int lvl = random_level();
         if (lvl > level) {
             for (int i = level + 1;i <= lvl;i++) {
@@ -79,7 +79,7 @@ void skiplist::delete_element(int &value) {
     Node *update[MAX_LEVEL + 1];
     memset (update, 0, sizeof(Node*) * (MAX_LEVEL + 1));
     for (int i = level;i >= 0;i--) {
-        while (x -> forw[i] != NULL && x -> forw[i] -> value < value) {
+        while (x -> forw[i] != NULL && x -> forw[i] -> value < value) { //find posistion of where to delete from
             x = x -> forw[i];
         }
         update[i] = x; 
@@ -87,7 +87,7 @@ void skiplist::delete_element(int &value) {
     x = x -> forw[0];
     if (x -> value == value) {
         for (int i = 0;i <= level;i++) {
-            if (update[i] -> forw[i] != x) break;
+            if (update[i] -> forw[i] != x) break;   //delete val and alter pointers based on it
             update[i] -> forw[i] = x -> forw[i];
         }
         delete x;
@@ -108,7 +108,7 @@ void skiplist::display() {
     cout << endl;
 }
 
-bool skiplist::contains(int &s_value) {
+bool skiplist::contains(int &s_value) { //search for element in list
     Node *x = header;
     for (int i = level;i >= 0;i--) {
         while (x -> forw[i] != NULL && x -> forw[i] -> value < s_value) {
@@ -119,7 +119,7 @@ bool skiplist::contains(int &s_value) {
     return x != NULL && x -> value == s_value;
 }
 
-int main() {
+int main() {    //driver code
     skiplist ss;
     int choice, n;
     while (1) {
